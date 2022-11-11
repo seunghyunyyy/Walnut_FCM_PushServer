@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -21,8 +20,9 @@ public class FirebaseCloudMessageService {
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/walnut-6b7da/messages:send";
     private final ObjectMapper objectMapper;
 
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
-        String message = makeMessage(targetToken, title, body);
+
+    public void sendMessageTo(String targetToken, String title, String body/*, String opcode, Long tokenId, Long msgId*/) throws IOException {
+        String message = makeMessage(targetToken, title, body/*, opcode, tokenId, msgId*/);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
@@ -34,8 +34,7 @@ public class FirebaseCloudMessageService {
                 .build();
 
         Response response = client.newCall(request).execute();
-
-        System.out.println(Objects.requireNonNull(response.body()).toString());
+        //System.out.println(Objects.requireNonNull(response.body()).toString());
     }
 
     private String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
@@ -45,7 +44,6 @@ public class FirebaseCloudMessageService {
                         .notification(FcmMessage.Notification.builder()
                                 .title(title)
                                 .body(body)
-                                .image(null)
                                 .build()
                         ).build()).validateOnly(false).build();
 
