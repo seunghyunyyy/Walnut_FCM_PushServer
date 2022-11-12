@@ -16,4 +16,5 @@ public interface MessagesRepository extends JpaRepository<MessagesEntity, Long> 
     MessagesEntity findByTokenId(Long tokenId);
     MessagesEntity findByMsgId(Long msgId);
     List<MessagesEntity> findByTokenContaining(String token);
+    List<MessagesEntity> findByMsgIdContaining(Long msgId);
 }

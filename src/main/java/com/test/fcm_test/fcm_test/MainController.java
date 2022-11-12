@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping(value = "/push/v1")
 public class MainController {
     //test : "fpDtTE-jQYeTIKG7e-b1WJ:APA91bEsgKOG84ILCU9orWih217FsxdictflLL-EcV72x2FRYXSx_t7C19Ri_iLgVBiLoyfgGu04dUjiKrYiM3tj_NA1XgIPhqCvQPsXVN-D6R7SFRmcZdP-AjxIEWZOrPqq_WF8rmyO";
-
     private final FirebaseCloudMessageService firebaseCloudMessageService;
     private final UserRepository userRepository;
     private final MessagesRepository messagesRepository;
@@ -39,20 +38,13 @@ public class MainController {
         return messagesRepository.save(new MessagesDTO(messagesDTO.getNo(), messagesDTO.getToken(), messagesDTO.getTitle(), messagesDTO.getBody(),
                 messagesDTO.getOpcode(), messagesDTO.getTokenId(), messagesDTO.getMsgId()).toEntity());
     }
-
     @GetMapping("/messages")
     public List<MessagesEntity> getMessages(@RequestBody MessagesDTO messagesDTO) {
         return messagesRepository.findByTokenContaining(messagesDTO.getToken());
     }
-/*
-    @GetMapping("/push/v1/messages/{msg_id}")
-    public String getTokens(@RequestParam String email) {
-
+    @GetMapping("/messages/{msg_id}")
+    public MessagesEntity getMessagesId(@PathVariable("msg_id") Long msg_id) {
+        return messagesRepository.findByMsgId(msg_id);//findByMsgIdContaining 사용 시 List<MessagesEntity> 반환
+        //msg_id 값을 가진 Entity가 여러 개라면 List<MessagesEntity>로 변환
     }
-
-*//*
-    public void postMessageEntity(@RequestBody MessagesDTO messagesDTO) {
-        System.out.println(messagesDTO.getToken() + "\n" + messagesDTO.getTitle() + "\n" + messagesDTO.getBody() + "\n"+ messagesDTO.getOpcode() + "\n"+ messagesDTO.getTokenId() + "\n"+ messagesDTO.getMsgId() + "\n");
-        messagesRepository.save(new MessagesDTO(messagesDTO.getNo(), messagesDTO.getToken(), messagesDTO.getTitle(), messagesDTO.getBody(), messagesDTO.getOpcode(), messagesDTO.getTokenId(), messagesDTO.getMsgId()).toEntity());
-    }*/
 }
