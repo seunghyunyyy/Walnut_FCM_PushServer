@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MessagesDTO {
-    private Long id;
+    private Long no;
     private String token;
     private String title;
     private String body;
@@ -18,8 +18,8 @@ public class MessagesDTO {
     private Long msgId;
 
     @Builder
-    public MessagesDTO(Long id, String token, String title, String body, String opcode, Long tokenId, Long msgId) {
-        this.id = id;
+    public MessagesDTO(Long no, String token, String title, String body, String opcode, Long tokenId, Long msgId) {
+        this.no = no;
         this.token = token;
         this.title = title;
         this.body = body;
@@ -28,12 +28,12 @@ public class MessagesDTO {
         this.msgId = msgId;
     }
 
-    public MessagesDTO toEntity() {
-        return MessagesDTO.builder()
-                .id(id)
+    public MessagesEntity toEntity() {
+        return MessagesEntity.builder()
+                .no(no)
                 .token(token)
-                .body(body)
                 .title(title)
+                .body(body)
                 .opcode(opcode)
                 .tokenId(tokenId)
                 .msgId(msgId)

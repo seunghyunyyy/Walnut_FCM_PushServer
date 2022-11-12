@@ -17,7 +17,7 @@ import javax.persistence.Id;
 public class MessagesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long no;
     private String token;
     private String title;
     private String body;
@@ -26,8 +26,8 @@ public class MessagesEntity {
     private Long msgId;
 
     @Builder
-    public MessagesEntity(Long id, String token, String title, String body, String opcode, Long tokenId, Long msgId) {
-        this.id = id;
+    public MessagesEntity(Long no, String token, String title, String body, String opcode, Long tokenId, Long msgId) {
+        this.no = no;
         this.token = token;
         this.title = title;
         this.body = body;
