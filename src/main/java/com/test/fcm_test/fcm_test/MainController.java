@@ -2,10 +2,13 @@ package com.test.fcm_test.fcm_test;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -18,37 +21,38 @@ public class MainController {
     private final UserRepository userRepository;
     private final MessagesRepository messagesRepository;
 
-    @PutMapping("/tokens")
+    @PutMapping ("/tokens")
     public UserEntity putTokens(@RequestBody UserDTO userDTO) {
-        System.out.println(userDTO.getId() + "\n" + userDTO.getEmail() + "\n" + userDTO.getToken());
-        return userRepository.save(new UserEntity(userDTO.getId(), userDTO.getEmail(), userDTO.getToken()));
+        System.out.println(userDTO.getNo() + "\n" + userDTO.getEmail() + "\n" + userDTO.getToken() + "\n");
+        return userRepository.save(new UserDTO(userDTO.getNo(), userDTO.getEmail(), userDTO.getToken()).toEntity());
     }
-    //email 기준으로 put 구현 다시하기
-
-
+    @GetMapping("/tokens")
+    public String getTokens(@RequestBody UserDTO userDTO) {
+        return userRepository.findByEmail(userDTO.getEmail()).getToken();
+    }
     @PostMapping("/messages")
-    public ResponseEntity postMessage(@RequestBody MessagesDTO messagesDTO) throws IOException {
-        postMessageEntity(messagesDTO);
+    public MessagesEntity postMessage(@RequestBody MessagesDTO messagesDTO) throws IOException {
         firebaseCloudMessageService.sendMessageTo(
                 messagesDTO.getToken(),
                 messagesDTO.getTitle(),
                 messagesDTO.getBody());
-        return ResponseEntity.ok().build();
-    }
-    public void postMessageEntity(@RequestBody MessagesDTO messagesDTO) throws IOException {
-        System.out.println(messagesDTO.getToken() + "\n" + messagesDTO.getTitle() + "\n" + messagesDTO.getBody() + "\n"+ messagesDTO.getOpcode() + "\n"+ messagesDTO.getTokenId() + "\n"+ messagesDTO.getMsgId());
-        messagesRepository.save(new MessagesEntity(messagesDTO.getId(), messagesDTO.getToken(), messagesDTO.getTitle(), messagesDTO.getBody(), messagesDTO.getOpcode(), messagesDTO.getTokenId(), messagesDTO.getMsgId()));
+        return messagesRepository.save(new MessagesDTO(messagesDTO.getNo(), messagesDTO.getToken(), messagesDTO.getTitle(), messagesDTO.getBody(),
+                messagesDTO.getOpcode(), messagesDTO.getTokenId(), messagesDTO.getMsgId()).toEntity());
     }
 
+    @GetMapping("/messages")
+    public List<MessagesEntity> getMessages(@RequestBody MessagesDTO messagesDTO) {
+        return messagesRepository.findByTokenContaining(messagesDTO.getToken());
+    }
 /*
-    @GetMapping("/push/v1/messages")
-    public String getTokens(@RequestParam String email) {
-
-    }
-*//*
     @GetMapping("/push/v1/messages/{msg_id}")
     public String getTokens(@RequestParam String email) {
 
     }
-*/
+
+*//*
+    public void postMessageEntity(@RequestBody MessagesDTO messagesDTO) {
+        System.out.println(messagesDTO.getToken() + "\n" + messagesDTO.getTitle() + "\n" + messagesDTO.getBody() + "\n"+ messagesDTO.getOpcode() + "\n"+ messagesDTO.getTokenId() + "\n"+ messagesDTO.getMsgId() + "\n");
+        messagesRepository.save(new MessagesDTO(messagesDTO.getNo(), messagesDTO.getToken(), messagesDTO.getTitle(), messagesDTO.getBody(), messagesDTO.getOpcode(), messagesDTO.getTokenId(), messagesDTO.getMsgId()).toEntity());
+    }*/
 }
