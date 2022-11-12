@@ -1901,3 +1901,6 @@ javax.persistence.NonUniqueResultException: query did not return a unique result
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
 	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
 
+2022-11-12 22:00:34.875  INFO 24624 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-12 22:00:34.879  INFO 24624 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-11-12 22:00:34.884  INFO 24624 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
