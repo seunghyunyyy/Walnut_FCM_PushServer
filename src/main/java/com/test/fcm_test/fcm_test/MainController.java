@@ -11,7 +11,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(value = "/push/v1")
 public class MainController {
-    //test : "fpDtTE-jQYeTIKG7e-b1WJ:APA91bEsgKOG84ILCU9orWih217FsxdictflLL-EcV72x2FRYXSx_t7C19Ri_iLgVBiLoyfgGu04dUjiKrYiM3tj_NA1XgIPhqCvQPsXVN-D6R7SFRmcZdP-AjxIEWZOrPqq_WF8rmyO";
     private final FirebaseCloudMessageService firebaseCloudMessageService;
     private final UserRepository userRepository;
     private final MessagesRepository messagesRepository;
