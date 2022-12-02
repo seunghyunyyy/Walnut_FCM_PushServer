@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -30,58 +29,12 @@ public class MainController {
     public String getTokens(@RequestParam(name = "email") String email) {
         return userRepository.findByEmail(email).getToken();
     }
-    /*-----------------------------------------수정 전 POST Messages 코드-----------------------------------------*/
     @PostMapping("/messages")
     public MessagesEntity postMessage(@RequestBody MessagesDTO messagesDTO) throws IOException {
         firebaseCloudMessageService.sendMessageTo(messagesDTO.getToken(), messagesDTO.getTitle(), messagesDTO.getBody());
         return messagesRepository.save(new MessagesDTO(messagesDTO.getToken(), messagesDTO.getTitle(), messagesDTO.getBody(),
                 messagesDTO.getOpcode(), messagesDTO.getTokenId(), messagesDTO.getMsgId()).toEntity());
     }
-   /* -----------------------------------------수정 전 POST Messages 코드-----------------------------------------*/
-
-    //-----------------------------------------수정 후 POST Messages 코드-----------------------------------------
-   /* @PostMapping("/messages")
-    public MessageEntity postMessage(@RequestBody MessageDTO messageDTO) throws IOException {
-        //-----------------------------------------FCM 전송-----------------------------------------//
-        firebaseCloudMessageService.sendMessageTo(
-                messageDTO.getToken(),
-                messageDTO.getNotification().getTitle(),
-                messageDTO.getNotification().getBody());
-        //-----------------------------------------전송한 메시지 저장-----------------------------------------//
-        NotificationEntity notification = new NotificationEntity();
-        notification.setTitle(messageDTO.getNotification().getTitle());
-        notification.setBody(messageDTO.getNotification().getBody());
-        nr.save(notification);
-        //-----------------------------------------메시지 데이터 저장-----------------------------------------//
-        DataEntity data = new DataEntity();
-        data.setOpcode(messageDTO.getData().getOpcode());
-        data.setTokenId(messageDTO.getData().getTokenId());
-        data.setMsgId(messageDTO.getData().getMsgId());
-        dr.save(data);
-        //-----------------------------------------메시지 전체 정보 저장-----------------------------------------//
-        MessageEntity message = new MessageEntity();
-        message.setToken(messageDTO.getToken());
-        message.setNotification(notification);
-        message.setData(data);
-        mr.save(message);
-
-        return message;
-
-
-    }*/
-    //-----------------------------------------수정 후 POST Messages 코드-----------------------------------------
-
-
-    /*-----------------------------------------수정 전 GET Messages 코드-----------------------------------------
-    @GetMapping("/messages")
-    public List<MessagesEntity> getMessages(@RequestParam(name = "token") String token) {
-        return messagesRepository.findByTokenContaining(token);
-    }
-    -----------------------------------------수정 전 GET Messages 코드-----------------------------------------*/
-
-
-    //-----------------------------------------수정 후 GET Messages 코드-----------------------------------------
-
     /**
      * @param token String TokenID
      * @param start defaultValue = "0"
@@ -113,7 +66,6 @@ public class MainController {
 
         return json.stringToMessageJsonArray(new Gson().toJson(messagesDTOS));
     }
-    //-----------------------------------------수정 후 GET Messages 코드-----------------------------------------
     @GetMapping("/messages/{msgId}")
     public JsonObject getMessagesId(@PathVariable("msgId") Long msgId) {
         //return messagesRepository.findByMsgId(msgId);

@@ -15,7 +15,6 @@ public class MessagesDTO {
     private String opcode;
     private Long tokenId;
     private Long msgId;
-
     @Builder
     public MessagesDTO(String token, String title, String body, String opcode, Long tokenId, Long msgId) {
         this.token = token;

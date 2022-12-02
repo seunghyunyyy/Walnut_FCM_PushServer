@@ -8,7 +8,6 @@ import lombok.*;
 public class UserDTO {
     private String email;
     private String token;
-
     @Builder
     public UserDTO(String email, String token) {
         this.email = email;

@@ -1,7 +1,6 @@
 package com.test.fcm_test.fcm_test;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @ToString
@@ -12,9 +11,6 @@ public class UserEntity {
     @Id
     private String email;
     private String token;
-
-
-
     @Builder
     public UserEntity(String email, String token) {
         this.email = email;
