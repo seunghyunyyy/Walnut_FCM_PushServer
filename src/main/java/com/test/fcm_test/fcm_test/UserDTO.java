@@ -6,19 +6,16 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class UserDTO {
-    private Long no;
     private String email;
     private String token;
 
     @Builder
-    public UserDTO(Long no, String email, String token) {
-        this.no = no;
+    public UserDTO(String email, String token) {
         this.email = email;
         this.token = token;
     }
     public UserEntity toEntity() {
         return UserEntity.builder()
-                .no(no)
                 .email(email)
                 .token(token)
                 .build();

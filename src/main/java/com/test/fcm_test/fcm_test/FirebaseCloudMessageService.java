@@ -32,12 +32,10 @@ public class FirebaseCloudMessageService {
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
                 .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
                 .build();
-
         Response response = client.newCall(request).execute();
-        //System.out.println(Objects.requireNonNull(response.body()).toString());
     }
 
-    private String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
+    public String makeMessage(String targetToken, String title, String body) throws JsonParseException, JsonProcessingException {
         FcmMessage fcmMessage = FcmMessage.builder()
                 .message(FcmMessage.Message.builder()
                         .token(targetToken)
@@ -46,17 +44,14 @@ public class FirebaseCloudMessageService {
                                 .body(body)
                                 .build()
                         ).build()).validateOnly(false).build();
-
         return objectMapper.writeValueAsString(fcmMessage);
     }
 
     private String getAccessToken() throws IOException {
         String firebaseConfigPath = "firebase/walnut-6b7da-firebase-adminsdk-uz7x7-18ac9eea16.json";
-
         GoogleCredentials googleCredentials = GoogleCredentials
                 .fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
-
         googleCredentials.refreshIfExpired();
         return googleCredentials.getAccessToken().getTokenValue();
     }

@@ -8,13 +8,12 @@ import java.util.List;
 
 @Repository
 public interface MessagesRepository extends JpaRepository<MessagesEntity, Long> {
-    MessagesEntity findByNo(Long no);
     MessagesEntity findByToken(String token);
     MessagesEntity findByTitle(String title);
     MessagesEntity findByBody(String body);
     MessagesEntity findByOpcode(String opcode);
-    MessagesEntity findByTokenId(Long tokenId);
+    MessagesEntity findByTokenId(String tokenId);
     MessagesEntity findByMsgId(Long msgId);
     List<MessagesEntity> findByTokenContaining(String token);
-    List<MessagesEntity> findByMsgIdContaining(Long msgId);
+    List<MessagesEntity> findByMsgIdContaining(String msgId);
 }

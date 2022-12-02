@@ -9,19 +9,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 public class UserEntity {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no;
     @Id
     private String email;
-
     private String token;
 
 
 
     @Builder
-    public UserEntity(Long no, String email, String token) {
-        this.no = no;
+    public UserEntity(String email, String token) {
         this.email = email;
         this.token = token;
     }
