@@ -68,7 +68,6 @@ public class MainController {
     }
     @GetMapping("/messages/{msgId}")
     public JsonObject getMessagesId(@PathVariable("msgId") Long msgId) {
-        //return messagesRepository.findByMsgId(msgId);
         return json.stringToMessageJsonObject(new Gson().toJson(messagesRepository.findByMsgId(msgId)));
     }
 }
